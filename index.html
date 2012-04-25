@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<script id="shader-vs" type="x-shader/x-vertex">
+		attribute vec3 aVertexPosition;
+		attribute vec2 aUV;
+		uniform vec2 uScreenSize;
+		uniform vec2 uPosition;		  
+		uniform vec2 uSize;
+		uniform float uAngle;
+		varying highp vec2 vUV;
+
+		void main(void) {
+			vec2 halfSize = uSize;
+			halfSize /= vec2(2, 2);
+			
+			float cos = cos(uAngle);
+			float sin = sin(uAngle);
+			mat2 rot = mat2(cos, sin, -sin, cos);
+			vec2 tpos = rot * aVertexPosition.xy;
+			tpos = uPosition * vec2(1,-1) + (tpos * halfSize);
+			tpos = (tpos / uScreenSize) * vec2(2, 2) - vec2(1, -1);
+			gl_Position = vec4(tpos, 0, 1.0);
+			vUV = aUV;
+		 }
+		</script>
+		<script id="shader-fs" type="x-shader/x-fragment">
+			varying highp vec2 vUV;
+		    uniform sampler2D uSampler;
+			uniform lowp float uAlpha;
+			
+			void main(void) {
+			
+				gl_FragColor = texture2D(uSampler, vUV) * vec4(1, 1, 1, uAlpha); //vec4(vUV.s, vUV.t, 0, 1);//vec4(1,0,0,1);
+			}
+		</script>
+
+   		<script language = javascript src="Utils/sylvester.js" type="text/javascript"></script>
+    	<script language = javascript src="Utils/glUtils.js" type="text/javascript"></script>
+		<script language = javascript src="Utils/keyboardInput.js" type="text/javascript"></script>
+		<script language = javascript src = "Picasso/Picasso.js"></script>
+		<script language = javascript src = "Picasso/PicassoSpriteRenderer.js"></script>
+		<script language = javascript src = "Picasso/PicassoSpriteRenderer.js"></script>
+		<script language = javascript src = "BiPlaneGame.js"></script>
+		<script language = javascript>
+			var game = null;
+			function Start(){
+				game = new BiPlaneGame("Canvas");
+				
+				setInterval(game.UpdateDraw, 16);
+			}
+		</script>
+	</head>
+
+	<body onload = "Start()">
+		<canvas id = "Canvas" width = "640" height = "400" onmousemove = "Mouse(event)" onmousedown = "MouseDown()" onmouseup = "MouseUp()">
+		Get a better browser!!!
+		</canvas><br/>
+	</body>
+</html>
