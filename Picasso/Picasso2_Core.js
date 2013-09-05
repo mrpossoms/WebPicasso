@@ -53,11 +53,7 @@ if(typeof(Picasso) == "undefined"){
 				window.onresize = function(){
 					canvas.style.width = window.innerWidth + 'px';
 					canvas.style.height = window.innerHeight + 'px';
-					window.$GL = Picasso._gl = canvas.getContext(
-	                     "experimental-webgl",
-	                     {antialias: true}
-					); // get the gl context
-					//Picasso.SetViewport(0,0,canvas.clientWidth,canvas.clientHeight);
+					Picasso.Init(canvas, defaultGLCalls, GLInitCalls);
 				};
 			}
 			catch(e){
