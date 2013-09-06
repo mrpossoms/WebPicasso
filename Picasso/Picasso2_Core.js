@@ -1,5 +1,7 @@
 if(typeof(Picasso) == "undefined"){
 	// initialize picasso namespace!
+	var $GL;
+
 	Picasso = {
 		//------------------------------------------------------------------------
 		// CORE PROPERTIES
@@ -14,7 +16,7 @@ if(typeof(Picasso) == "undefined"){
 			try{
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
-				window.$GL = this._gl = canvas.getContext(
+				$GL = this._gl = canvas.getContext(
 					"experimental-webgl",
 					{antialias: true}
 				); // get the gl context
@@ -97,7 +99,7 @@ if(typeof(Picasso) == "undefined"){
 			}
 			return shader;
 		},
-		LoadTexture: function(url, mag, min, callback, texParams){
+		LoadTexture: function(url, mag, min, texParams, callback){
 			var _gl = $GL;
 			var gl_texture = _gl.createTexture();
 			
