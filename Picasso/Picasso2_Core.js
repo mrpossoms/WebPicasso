@@ -12,8 +12,8 @@ if(typeof(Picasso) == "undefined"){
 		// FUNCTIONS
 		Init: function(canvas, defaultGLCalls, GLInitCalls){
 			try{
-				canvas.style.width = window.innerWidth + 'px';
-				canvas.style.height = window.innerHeight + 'px';
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
 				window.$GL = this._gl = canvas.getContext(
 					"experimental-webgl",
 					{antialias: true}
@@ -51,9 +51,10 @@ if(typeof(Picasso) == "undefined"){
 				}
 
 				window.onresize = function(){
-					canvas.style.width = window.innerWidth + 'px';
-					canvas.style.height = window.innerHeight + 'px';
+					canvas.width = window.innerWidth;
+					canvas.height = window.innerHeight;
 					Picasso.Init(canvas, defaultGLCalls, GLInitCalls);
+					Picasso.SetViewport(0, 0, canvas.width, canvas.height);
 				};
 			}
 			catch(e){
