@@ -5,18 +5,18 @@ if(typeof(Picasso) != "undefined"){
 		LoadTextures: function(images, callback){
 			this._loaded = images.length;
 
-			for(var i = 0; i--;){
+			for(var i = images.length; i--;){
 				var img = images[i];
 				var name = img.Url.split('/'); name = name[name.length-1];
 
 				Picasso.LoadTexture(
 					img.Url,
-					img.Mag.
+					img.Mag,
 					img.Min,
 					function(image){
-						Textures[name] = image;
+						$P.ContentLoader.Textures[name] = image;
 						--Picasso.ContentLoader._loaded;
-						if(Picasso.ContentLoader._loaded){
+						if(!Picasso.ContentLoader._loaded){
 							callback();
 						}
 					}

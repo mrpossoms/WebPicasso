@@ -3,6 +3,7 @@
 		<script type="text/javascript" src="../Utils/OPfoundation.js"></script>
 		<script type="text/javascript" src="../Picasso/Picasso2_Core.js"></script>
 		<script type="text/javascript" src="../Picasso/Picasso2_Camera.js"></script>
+		<script type="text/javascript" src="../Picasso/Picasso2_ContentLoader.js"></script>
 	</head>
 	<body style="padding:0px;">
 		<canvas id="cvs" style="position:absolute;top:0px;left:0px;">
@@ -19,11 +20,11 @@
 				['aVertexPosition','aUV']
 			);
 
-			Picasso.LoadTexture('Textures/OPlogo.png',
-				$GL.LINEAR,
-				$GL.LINEAR,
-				null,
-				function(tex){
+			Picasso.ContentLoader.LoadTextures([
+				{Url:'Textures/OPlogo.png',Mag:$GL.LINEAR,Min:$GL.LINEAR}
+			], start);
+
+			function start(){
 				var tri = new Picasso.Mesh(
 					[
 						[
@@ -56,7 +57,7 @@
 					$GL.uniform1i(effect.GetUniLoc("uColor"), 0);
 					Picasso.DrawMesh(tri);
 				});
-			});
+			}
 		</script>
 	</body>
 </html>

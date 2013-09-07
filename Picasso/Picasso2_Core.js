@@ -1,8 +1,6 @@
 if(typeof(Picasso) == "undefined"){
 	// initialize picasso namespace!
-	var $GL;
-
-	Picasso = {
+	window.$P = Picasso = {
 		//------------------------------------------------------------------------
 		// CORE PROPERTIES
 		_gl: null,     // GL context
