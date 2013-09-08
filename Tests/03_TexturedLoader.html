@@ -12,20 +12,24 @@
 		<script type="text/javascript">
 			Picasso.Init(document.getElementById('cvs'), false, null);
 
-			var vert = Picasso.LoadShader('Shaders/Textured.vert');
-			var frag = Picasso.LoadShader('Shaders/Textured.frag');
-			var effect = new Picasso.Effect(
-				vert,
-				frag,
-				['aVertexPosition','aUV']
-			);
-
 			Picasso.ContentLoader.LoadTextures([
 				{Url:'Textures/Test0.jpg',Mag:$GL.LINEAR,Min:$GL.LINEAR},
 				{Url:'Textures/Test1.jpg',Mag:$GL.LINEAR,Min:$GL.LINEAR}
-			], null, start);
+			], null, loadShaders);
+
+			function loadShaders(){
+				$P.ContentLoader.LoadShaders(
+				['Shaders/Textured.vert','Shaders/Textured.frag'],
+				start);
+			}
 
 			function start(){
+				var effect = new Picasso.Effect(
+					$P.ContentLoader.Shaders['Textured.vert'],
+					$P.ContentLoader.Shaders['Textured.frag'],
+					['aVertexPosition','aUV']
+				);
+
 				var quad = new Picasso.Mesh(
 					[
 						[
