@@ -37,6 +37,7 @@ var OP_VOLUME = 1.0; // Master volume
 // shorthands
 var $KB  = null; // keyboard object
 var $MS  = null; // mouse object
+var $GP  = null; // gamepad object
 var $CTX = null; // canvas context
 var $CVS = null; // canvas
 
@@ -100,6 +101,7 @@ var OPfoundation = {
         // initialize shorthands
         $KB = OPfoundation.Input.Keyboard;
         $MS = OPfoundation.Input.Mouse;
+        $GP = OPfoundation.Input.Gamepad;
         $CVS = OPfoundation.Canvas;
         $CTX = $CVS ? $CVS.Context : null;
 
