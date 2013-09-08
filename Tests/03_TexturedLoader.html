@@ -21,11 +21,12 @@
 			);
 
 			Picasso.ContentLoader.LoadTextures([
-				{Url:'Textures/OPlogo.png',Mag:$GL.LINEAR,Min:$GL.LINEAR}
-			], start);
+				{Url:'Textures/Test0.jpg',Mag:$GL.LINEAR,Min:$GL.LINEAR},
+				{Url:'Textures/Test1.jpg',Mag:$GL.LINEAR,Min:$GL.LINEAR}
+			], null, start);
 
 			function start(){
-				var tri = new Picasso.Mesh(
+				var quad = new Picasso.Mesh(
 					[
 						[
 						 -0.5,  0.5, 0,
@@ -49,13 +50,21 @@
 					[3, 2]
 				);
 
+				var switcher = 3000;
+
 				OPfoundation.Init(null, function(dt){
+					switcher -= dt;
+					var image = switcher > 0 ? 'Test0.jpg' : 'Test1.jpg';
+
 					Picasso.Clear(0, 0, 0, 1);
-					Picasso.BindMesh(tri, effect);
+					Picasso.BindMesh(quad, effect);
 					$GL.activeTexture($GL.TEXTURE0);
-					$GL.bindTexture($GL.TEXTURE_2D, tex.GL);
+					$GL.bindTexture($GL.TEXTURE_2D, $P.ContentLoader.Textures[image]);
 					$GL.uniform1i(effect.GetUniLoc("uColor"), 0);
-					Picasso.DrawMesh(tri);
+					Picasso.DrawMesh(quad);
+
+					if(switcher < -3000)
+						switcher = 3000;
 				});
 			}
 		</script>

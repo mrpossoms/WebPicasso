@@ -122,7 +122,7 @@ if(typeof(Picasso) == "undefined"){
 				// if there is stuff to do
 				if(callback) callback(img);
 			};
-			img.onerror = function(){ img.src = url; };
+			img.onerror = function(){ img.src = url; console.log('Error loading image: ' + url); };
 			img.src = url;
 			
 			return img;
