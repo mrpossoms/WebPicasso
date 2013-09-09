@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<script type="text/javascript" src="../Utils/OPfoundation.js"></script>
+		<script type="text/javascript" src="../Picasso/Picasso2_Core.js"></script>
+		<script type="text/javascript" src="../Picasso/Picasso2_Camera.js"></script>
+		<script type="text/javascript" src="../Picasso/Picasso2_ContentLoader.js"></script>
+		<script type="text/javascript" src="../Picasso/Picasso2_MeshFactory.js"></script>
+	</head>
+	<body style="padding:0px;">
+		<canvas id="cvs" style="position:absolute;top:0px;left:0px;">
+			Canvas not supported
+		</canvas>
+		<script type="text/javascript">
+			Picasso.Init(document.getElementById('cvs'), false, null);
+			Picasso.Camera.Init(
+				90,
+				$P._cvs.width / $P._cvs.height,
+				0.0001,
+				100,
+				$V([0, 0, 5]),
+				$V([0, 0, 0])
+			);
+
+			Picasso.ContentLoader.LoadTextures([
+				{Url:'Textures/fighter0Norm.png',Mag:$GL.LINEAR,Min:$GL.LINEAR},
+				{Url:'Textures/fighter0Skin.png',Mag:$GL.LINEAR,Min:$GL.LINEAR},
+				{Url:'Textures/fighter0Spec.png',Mag:$GL.LINEAR,Min:$GL.LINEAR}
+			], null, loadShaders);
+
+			function loadShaders(){
+				$P.ContentLoader.LoadShaders([
+					'Shaders/Model.vert','Shaders/Model.frag'
+				], loadMeshes);
+			}
+
+			function loadMeshes(){
+				$P.ContentLoader.LoadMeshes([
+					'Models/fighter.opm'
+				], start);
+			}
+
+			function start(){
+				var effect = new Picasso.Effect(
+					$P.ContentLoader.Shaders['Model.vert'],
+					$P.ContentLoader.Shaders['Model.frag'],
+					['aPosition','aNormal','aTangent','aTexCoord']
+				);
+				var mesh = $P.ContentLoader.Meshes['fighter.opm'];
+
+				OPfoundation.Init(null, function(dt){
+
+					Picasso.Clear(0, 0, 0, 1);
+
+					$P.BindMesh(mesh, effect);
+
+					$GL.uniformMatrix4fv(effect.GetUniLoc("uProj"),  $GL.TRUE, $P.Camera.GetProjection().flatten());
+					$GL.uniformMatrix4fv(effect.GetUniLoc("uModel"), $GL.TRUE, Matrix.I(4).ensure4x4().flatten());	
+					
+					$P.UseTexture($P.ContentLoader.Textures['fighter0Norm.png'],"uTexture",0);
+					$P.UseTexture($P.ContentLoader.Textures['fighter0Skin.png'],"uSpecularMap",1);
+					$P.UseTexture($P.ContentLoader.Textures['fighter0Spec.png'],"uNormalMap",2);
+
+					Picasso.DrawMesh(mesh);
+				});
+			}
+		</script>
+	</body>
+</html>

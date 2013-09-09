@@ -62,9 +62,11 @@
 
 					Picasso.Clear(0, 0, 0, 1);
 					Picasso.BindMesh(quad, effect);
-					$GL.activeTexture($GL.TEXTURE0);
-					$GL.bindTexture($GL.TEXTURE_2D, $P.ContentLoader.Textures[image]);
-					$GL.uniform1i(effect.GetUniLoc("uColor"), 0);
+					Picasso.UseTexture(
+						$P.ContentLoader.Textures[image],
+						"uColor",
+						0
+					);
 					Picasso.DrawMesh(quad);
 
 					if(switcher < -3000)

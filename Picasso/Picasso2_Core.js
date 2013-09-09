@@ -3,9 +3,11 @@ if(typeof(Picasso) == "undefined"){
 	window.$P = Picasso = {
 		//------------------------------------------------------------------------
 		// CORE PROPERTIES
-		_gl: null,     // GL context
-		_cvs: null,    // Canvas element
-		_xhr: null,    // XMLHttpRequest
+		_gl:      null,     // GL context
+		_cvs:     null,    // Canvas element
+		_xhr:     null,    // XMLHttpRequest
+		_efct:    null,
+		_texSlot: -1,
 		//------------------------------------------------------------------------
 		// RENDERING PROPERTIES
 		//------------------------------------------------------------------------
@@ -34,6 +36,8 @@ if(typeof(Picasso) == "undefined"){
 					$GL.getExtension( 'MOZ_WEBGL_compressed_texture_s3tc' ) ||
 					$GL.getExtension( 'WEBKIT_WEBGL_compressed_texture_s3tc' );
 				
+				this._texSlot = $GL.TEXTURE0;
+
 				if(typeof(GLInitCalls) == "function"){
 					// execute user init calls
 					GLInitCalls($GL);
@@ -160,6 +164,7 @@ if(typeof(Picasso) == "undefined"){
 			}
 			
 			$GL.useProgram(effect.ShaderProgram);
+			$P._efct = effect;
 		},
 		Clear: function(r, g, b, a){
 			var _gl = $GL;
@@ -172,6 +177,12 @@ if(typeof(Picasso) == "undefined"){
 		DrawMesh: function(mesh){
 			var _gl = $GL;
 			_gl.drawArrays(_gl.TRIANGLES, 0, mesh.VertCount);
+		},
+		UseTexture: function(image, uniform, slot){
+			var p = $P;
+			$GL.activeTexture(p._texSlot + slot);
+			$GL.bindTexture($GL.TEXTURE_2D, image);
+			$GL.uniform1i(p._efct.GetUniLoc("uColor"), slot);
 		},
 		//------------------------------------------------------------------------
 		// CLASSES

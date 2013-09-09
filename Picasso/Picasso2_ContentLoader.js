@@ -48,6 +48,21 @@ if(typeof(Picasso) != "undefined"){
 			}
 
 			callback();
+		},
+		LoadMeshes: function(meshes, callback){
+			var getName = function(str){
+				var name = str.split('/');
+				return name[name.length-1];
+			}
+
+			for(var i = meshes.length; i--;){
+				var url = meshes[i];
+				var name = getName(url);
+
+				$P.ContentLoader.Meshes[name] = $P.MeshFactory.Load(url);
+			}
+
+			callback();
 		}
 	};
 }
