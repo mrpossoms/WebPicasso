@@ -40,5 +40,5 @@ void main(void){
 	lowp float alpha = color.a;
 	if(alpha < 0.5) alpha = 0.0;
 	
-	gl_FragColor = vec4(1,0,0,1);//vec4((color.xyz * diffuse.xyz) + specular.xyz, alpha) * uTint;
+	gl_FragColor = vec4((color.xyz * diffuse.xyz) + specular.xyz, alpha);
 }

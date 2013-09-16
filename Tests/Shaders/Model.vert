@@ -14,7 +14,7 @@ uniform mat4 uModel;
 
 void main(void){
 	mat3 rotScl = vRotScl = mat3(uModel[0].xyz, uModel[1].xyz, uModel[2].xyz); 
-	vec4 worldPos = /*uModel */ vec4(aPosition.xy, 0, 1.0);
+	vec4 worldPos = uModel * vec4(aPosition.xyz, 1.0);
 	vec4 viewPos = uView * worldPos;
 	vec4 screenPos = uProj * viewPos;
 	
@@ -22,5 +22,5 @@ void main(void){
 	vTangent = normalize(rotScl *aTangent);
 	vTexCoord = aTexCoord;
 	
-	gl_Position = worldPos;//screenPos;
+	gl_Position = screenPos;
 }
